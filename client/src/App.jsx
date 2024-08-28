@@ -29,9 +29,9 @@ function App() {
             element={<Register  />}
           />
           <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/edit-blog" element={<EditBlog />} />
+          <Route path="/edit-blog/:id" element={<EditBlog />} />
           <Route path="/my-blogs" element={<YourBlogs />} />
-          <Route path="/display-blog" element={<DisplayBlog />} />
+          <Route path="/display-blog/:id" element={<DisplayBlog />} />
         </Routes>
       </div>
     </div>

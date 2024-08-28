@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { blogsAtom } from "../store/atoms/blogsAtom";
 import { useRecoilState } from "recoil";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const CreateBlog = () => {
   const [title,setTitle] = useState('');
@@ -9,19 +11,37 @@ const CreateBlog = () => {
   const [country,setCountry] = useState('');
   const [description,setDescription] = useState('');
   const navigate = useNavigate();
-  const [file,setFiles] = useState('');
+  const [files,setFiles] = useState('');
   const [blogs, setBlogs] =  useRecoilState(blogsAtom)
+  const modules = {
+    toolbar : [
+      [{'header':[1,2,3,4,5,6,7,false]}],
+      ['bold','italic','underline','strike','blackquote'],
+      [{'list':'ordered'},{'list':'bullet'},{'indent':'-1'}],
+      ['link','image'],
+      ['clean']
+    ]
+  }
+  const formats= [
+      'header',
+      'bold','italic','underline','strike','blackquote',
+      'list','bullet','indent',
+      'link','image',
+    ]
+  
 
 
   const postBlog = async(ev) =>{
     ev.preventDefault();
+
+    // console.log(description)
     const data = new FormData();
     data.set('title',title);
     data.set('category',category);
     data.set('country',country);
     data.set('description',description);
-    console.log(file)
-    data.set('file',file[0]);
+    // console.log(file)
+    data.set('file',files[0]);
     const response = await fetch("http://localhost:3000/create-blog",{
       method:'POST',
       body:data,
@@ -46,7 +66,7 @@ const CreateBlog = () => {
     }
   }
   return (
-    <form className="w-3/4 m-auto flex flex-col mb-4" onSubmit={postBlog}>
+    <form className="w-3/4 m-auto flex flex-col mb-4 min-w-60" onSubmit={postBlog}>
       <h2 className='mb-4 font-medium text-greenOne text-xl border-b border-grayOne pb-2'>Edit Blog</h2>
       <div className=" mb-4">
         <label htmlFor="title" className="mr-2 self-center ">
@@ -72,6 +92,7 @@ const CreateBlog = () => {
             onChange={(e)=>setCategory(e.target.value)}
           >
             <option value={category} selected>Select Category</option>
+            <option value="Radhe Radhe">Radhe Radhe</option>
             <option value="Technology">Technology</option>
             <option value="Food">Food</option>
             <option value="Travel">Travel</option>
@@ -110,7 +131,7 @@ const CreateBlog = () => {
         <label htmlFor="description" className="mr-4 self-center ">
           Description
         </label>
-        <textarea
+        {/* <textarea
           rows="24"
           type="text"
           id="description"
@@ -118,7 +139,16 @@ const CreateBlog = () => {
           className="border border-grayOne rounded w-full p-1"
           value={description}
           onChange={(e)=>setDescription(e.target.value)}
-        />
+        /> */}
+        <ReactQuill
+         theme="snow" 
+         modules = {modules}
+         formats={formats}
+         value={description}
+         onChange={newValue=>setDescription(newValue)} 
+         className="bg-white"/>
+
+
       </div>
       <div className="self-end">
         <input

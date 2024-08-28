@@ -18,16 +18,17 @@ const YourBlogs = () => {
   }, []);
   return (
     <>
-      <div className=" flex flex-col items-center ">
-        <div className="w-2/4 mb-4 font-medium text-greenOne text-xl border-b border-grayOne pb-2 ">
-          <h2 className="self-start">My Blogs</h2>
-        </div>
-        <div className=" w-2/4  ">
+      {/* <div className=" flex mt-4 gap-20 items-start "> */}
+        <div className="w-3/4 h-screen overflow-y-scroll no-scrollbar m-auto ">
+          <h2 className="font-medium text-greenOne text-xl mb-4  border-b border-grayOne pb-2 self-start">My Blogs</h2>
+        
+        <div className=" w-full ">
           {/* <div className=""> */}
             <BlogList blogs={myBlogs}></BlogList>
           {/* </div> */}
         </div>
-      </div>
+        </div>
+      {/* </div> */}
     </>
   );
 };

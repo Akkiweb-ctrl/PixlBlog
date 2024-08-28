@@ -5,18 +5,18 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import UserContextProvider from "./store/UserContext";
-import BlogContextProvider from "./store/BlogContext.jsx";
+// import BlogContextProvider from "./store/BlogContext.jsx";
 import { RecoilRoot } from "recoil";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RecoilRoot>
       <UserContextProvider>
-        <BlogContextProvider>
+        {/* <BlogContextProvider> */}
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </BlogContextProvider>
+        {/* </BlogContextProvider> */}
       </UserContextProvider>
       </RecoilRoot>
   </StrictMode>

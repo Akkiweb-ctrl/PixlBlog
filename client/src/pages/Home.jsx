@@ -1,10 +1,9 @@
 import React from 'react'
-import Header from '../components/Header'
 import Content from '../components/Content'
 
 const Home = () => {
   return (
-    <div className='w-3/4 m-auto'>
+    <div className='w-11/12 m-auto'>
       <Content></Content>
     </div>
   )

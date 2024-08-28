@@ -5,7 +5,7 @@ import { formatISO9075 } from "date-fns";
 
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BlogContext } from "../store/BlogContext";
+// import { BlogContext } from "../store/BlogContext";
 import { useRecoilState } from "recoil";
 // import { myBlogsAtom } from "../store/atoms/myBlogsAtom";
 import { UserContext } from "../store/UserContext";
@@ -13,7 +13,7 @@ import { blogsAtom } from "../store/atoms/blogsAtom";
 import { myBlogsAtom } from "../store/atoms/myBlogsAtom";
 
 const Blog = ({ blog }) => {
-  const { setToEdit, setToDisplay } = useContext(BlogContext);
+  // const { setToEdit, setToDisplay } = useContext(BlogContext);
   const [blogs, setBlogs] = useRecoilState(blogsAtom);
   const [myBlogs, setMyBlogs] = useRecoilState(myBlogsAtom);
   const { user, updateUser } = useContext(UserContext);
@@ -43,43 +43,64 @@ const Blog = ({ blog }) => {
   // console.log(blog.author);
   // console.log(user._id);
   return (
-    <div className="flex gap-2">
-    <Link to="/display-blog" onClick={() => setToDisplay(blog)} className="grow">
-      <div className="flex  rounded-r-lg shadow-2xl min-w-fit bg-white cursor-pointer">
-        <img
-          src={"http://localhost:3000/" + blog.cover}
-          // src="./assest/img1.png"
-          alt="image"
-          className="max-w-72 rounded-l-lg border-r-none"
-        />
-        <div className=" flex-col p-6 w-full">
-          <div>
-            <div className="flex gap-2 mb-2">
+    <div className="flex flex-col sm-flex-col lg:flex-row gap-2 justify-end">
+      <Link
+        to={`/display-blog/${blog._id}`}
+        onClick={() => setToDisplay(blog)}
+        className="grow"
+      >
+        <div className=" flex flex-col sm:flex-col lg:flex-row rounded-lg shadow-2xl min-w-fit bg-white cursor-pointer  ">
+          <img
+            src={"http://localhost:3000/" + blog.cover}
+            // src="./assest/img1.png"
+            alt="image"
+            className="sm:w-full lg:max-w-72 w-full sm:rounded-t-lg rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg border-r-none h-60"
+          />
+          <div className=" flex-col p-6 w-full items-start justify-center max-h-60 overflow-y-scroll no-scrollbar">
+            {/* <div> */}
+            <div className="flex gap-2 mb-2 w-fit">
               <span className="self-center text-greenOne">
                 <IoIosTimer />
               </span>
               <span className="font-light">
                 {formatISO9075(new Date(blog.timestamp))}
               </span>{" "}
+              {/* </div> */}
             </div>
+            <div className="text-lg font-medium mb-2 text-greenOne ">
+              {blog.title}
+            </div>
+            <div className="font-light mb-2 ">{blog.category}</div>
+            <div
+              className="px-1 text-white rounded font-medium
+           bg-greenOne  w-fit mb-2 "
+            >
+              {blog.country}
+            </div>
+            <p>
+              By -
+              <span className="font-medium text-greenOne"> {blog.author}</span>
+            </p>
           </div>
-          <p className="text-lg font-medium mb-2 text-greenOne">{blog.title}</p>
-          <p className="font-light mb-2">{blog.category}</p>
-          <p className="px-0.5 rounded border-2 inline-block mb-2">
-            {blog.country}
-          </p>
-          <p>By - {blog.author}</p>
         </div>
-      </div>
-    </Link>
-    {blog.authorId===user._id && <div className="flex flex-col justify-start gap-4 ">
-      <Link to="/edit-blog"className="text-greenOne font-medium cursor-pointer "onClick={()=>setToEdit(blog)}>
-        <FaEdit />
       </Link>
-      <span className="text-red font-medium cursor-pointer" onClick={deleteBlog}>
-        <MdDelete />
-      </span>
-    </div>}
+      {blog.authorId === user._id && (
+        <div className="flex flex:row lg:flex-col lg:justify-start justify-end gap-4 mb-4 ">
+          <Link
+            to={`/edit-blog/${blog._id}`}
+            className="text-greenOne font-medium cursor-pointer "
+            onClick={() => setToEdit(blog)}
+          >
+            <FaEdit />
+          </Link>
+          <span
+            className="text-red font-medium cursor-pointer"
+            onClick={deleteBlog}
+          >
+            <MdDelete />
+          </span>
+        </div>
+      )}
     </div>
   );
 };

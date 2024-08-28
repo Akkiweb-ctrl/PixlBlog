@@ -8,7 +8,9 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const app = express();
 const multer = require('multer');
-const uploadMiddleware = multer({dest : 'uploads/'})
+const uploadMiddleware = multer({ 
+    dest: 'uploads/', 
+    limits: { fieldSize: 2 * 1024 * 1024 } })
 const fs = require('fs');
 
 const salt = bcrypt.genSaltSync(10)
@@ -26,9 +28,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json({limit: '50mb'}))
+app.use(express.json({ limit: '50mb' }))
 app.use(cookieParser())
-app.use('/uploads',express.static(__dirname+'/uploads'))
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -37,9 +39,9 @@ app.post('/login', async (req, res) => {
         // console.log(userDoc);
         const passOk = bcrypt.compareSync(password, userDoc.password);
         if (passOk) {
-            jwt.sign({ email, id: userDoc._id, name:userDoc.name }, secret, (err, token) => {
+            jwt.sign({ email, id: userDoc._id, name: userDoc.name }, secret, (err, token) => {
                 if (err) throw err
-                res.cookie('token', token).json({email,_id: userDoc._id,name:userDoc.name});
+                res.cookie('token', token).json({ email, _id: userDoc._id, name: userDoc.name });
                 // res.cookie('token',token);
                 // res.json(token);
             })
@@ -79,12 +81,12 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/create-blog', uploadMiddleware.single('file'), async (req, res) => {
-    const {originalname,path} = req.file;
+    const { originalname, path } = req.file;
     const parts = originalname.split('.');
-    const ext = parts[parts.length-1];
-    const newPath= path + '.' + ext
-    fs.renameSync(path,newPath);
-    const { title, country, category, description, image } = req.body;
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext
+    fs.renameSync(path, newPath);
+    const { title, country, category, description} = req.body;
     let id = ''
     const { token } = req.cookies;
     jwt.verify(token, secret, async (err, info) => {
@@ -92,8 +94,8 @@ app.post('/create-blog', uploadMiddleware.single('file'), async (req, res) => {
         // email = data.email;
     })
     try {
-        console.log(id);
-        const user = await User.findOne({ _id:id })
+        // console.log(id);
+        const user = await User.findOne({ _id: id })
         // authorId = user._id
         // console.log(user);
         const blogDoc = await Blog.create({
@@ -101,10 +103,10 @@ app.post('/create-blog', uploadMiddleware.single('file'), async (req, res) => {
             country,
             category,
             description,
-            authorId :user._id,
+            authorId: user._id,
             timestamp: new Date(),
             cover: newPath,
-            author:user.name
+            author: user.name
         })
         res.json(blogDoc);
     } catch (err) {
@@ -116,33 +118,58 @@ app.post('/create-blog', uploadMiddleware.single('file'), async (req, res) => {
 
 })
 
+app.get('/edit-blog/:id',async (req,res)=>{
+    const {id} = req.params;
+    // console.log(id)
+    try {
+        const blogDoc = await Blog.findOne({_id:id}).populate('authorId')
+        console.log(blogDoc)
+        res.json(blogDoc)
+    }catch(e){
+        console.log(e)
+        res.status(400).json(e)
+    }
+    // res.json(req.params)
+})
 
 app.put('/edit-blog', async (req, res) => {
-    const { title, country, category, description, image,id } = req.body;
-    // console.log(country)
-    // let email = ''
-    // let author = ''
-    // const { token } = req.cookies;
-    // jwt.verify(token, secret, async (err, info) => {
-    //     email = info.email;
-    //     // email = data.email;
-    // })
-    try {
-        // const user = await fi.findOne({ _id:id })
-        // author = user.name
-        const blogDoc = await Blog.findOneAndUpdate({_id:id},{
-            title,
-            country,
-            category,
-            description,
-            timestamp: new Date(),
-            image,
-        })
-        res.json(blogDoc);
-    } catch (err) {
-        console.log(err);
-        res.status(400).json(err);
+    const { title, country, category, description,id} = req.body;
+    // console.log(req.body);
+    let newPath = null;
+    if(req.file){
+        const { originalname, path } = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    newPath = path + '.' + ext
+    fs.renameSync(path, newPath);
     }
+    const { token } = req.cookies;
+    jwt.verify(token, secret, async (err, info) => {
+        if(err ) throw err
+        // email = data.email;
+        try {
+            const blogDoc = await Blog.findById(id)
+            // console.log(blogDoc);
+            const isAuthor = JSON.stringify(blogDoc.authorId)===JSON.stringify(info.id)
+            if(!isAuthor){
+                 res.status(400).json("You are not author");
+            }
+            // console.log(blog)
+            const updatedBlog = await Blog.findOneAndUpdate({_id:id},{
+                title,
+                country,
+                category,
+                description,
+                lastUpdated: new Date(),
+                cover:newPath ? newPath : blogDoc.cover
+            })
+            res.json(updatedBlog);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
+    })
+    
 })
 
 app.get('/get-my-blogs', async (req, res) => {
@@ -154,7 +181,7 @@ app.get('/get-my-blogs', async (req, res) => {
         return info.id
     })
     try {
-        const docs = await Blog.find({ authorId:id }).sort({timestamp:-1});
+        const docs = await Blog.find({ authorId: id }).sort({ timestamp: -1 });
         res.json(docs);
     }
     catch (e) {
@@ -172,7 +199,8 @@ app.get('/get-blogs', async (req, res) => {
     //     email = data.email;
     // })
     try {
-        const docs = await Blog.find().sort({timestamp:-1});
+        const docs = await Blog.find().sort({ timestamp: -1 });
+        console.log(docs)
         res.json(docs);
     }
     catch (e) {
@@ -186,8 +214,8 @@ app.get('/profile', (req, res) => {
     const { token } = req.cookies;
     jwt.verify(token, secret, (err, info) => {
         if (err) throw err
-        console.log({name:info.email,email:info.email   ,_id:info.id})
-        res.json({name:info.email,email:info.email,info,_id:info.id})
+        // console.log({ name: info.name, email: info.email, _id: info.id })
+        res.json({ name: info.email, email: info.email, info, _id: info.id })
     })
     //  res.json(req.cookies)
 })
@@ -195,19 +223,33 @@ app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok');
 })
 
-app.delete("/delete-blog",async (req,res)=>{
-    const  {id} =req.body;
+app.delete("/delete-blog", async (req, res) => {
+    const { id } = req.body;
     // console.log(id)
-    try{
-    const userDoc = await Blog.findOneAndDelete({_id:id})
-    res.json(userDoc);
-    }catch(e){
+    try {
+        const userDoc = await Blog.findOneAndDelete({ _id: id })
+        res.json(userDoc);
+    } catch (e) {
         console.log(e)
         res.status(400).json(e);
     }
-    
+
 })
 
+app.get("/display-blog/:id",async(req,res)=>{
+    const {id} = req.params;
+    try{
+        const blogDoc = await Blog.findOne({_id:id}).populate('authorId')
+        res.json(blogDoc)
+    }
+    catch(e){
+        console.log(e),
+        res.status(400).json(e);
+
+    }
+    // console.log(_id)
+    // res.json(req.params);
+})
 
 app.listen(3000, () => {
     console.log("app is listening to port 3000");

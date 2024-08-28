@@ -61,7 +61,7 @@ const Register = ({ setLoggedIn }) => {
       />
       <input
         type="submit"
-        className=" bg-greenOne text-white font-bold rounded-lg p-2"
+        className=" bg-greenOne text-white font-bold rounded-lg p-2 cursor-pointer"
       />
     </form>
   );

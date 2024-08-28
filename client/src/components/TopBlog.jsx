@@ -11,7 +11,7 @@ const TopBlog = () => {
         <span className="font-light">29 Feb 2024, Thursday</span>{" "}
       </div>
       <p>How are AgriTech Startups Revolutionising farming...</p>
-      <p>By: Dr Anu Kadyan,</p>
+      <p> By -<span className="font-medium text-greenOne"> Dr Anu Kadyan,</span></p>
     </div>
   );
 };
