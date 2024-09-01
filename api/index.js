@@ -13,6 +13,7 @@ const uploadMiddleware = multer({
     limits: { fieldSize: 2 * 1024 * 1024 } })
 const fs = require('fs');
 
+const port = process.env.PORT || 3000;
 const salt = bcrypt.genSaltSync(10)
 const secret = '1234567890'
 const connect = async () => {
@@ -251,6 +252,4 @@ app.get("/display-blog/:id",async(req,res)=>{
     // res.json(req.params);
 })
 
-app.listen(3000, () => {
-    console.log("app is listening to port 3000");
-})
+app.listen(port)
