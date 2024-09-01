@@ -38,7 +38,7 @@ const TopBlogList = () => {
   //   </div>
   // );
   return (
-    <div className='w-full  rounded-lg shadow-2xl bg-white ' >
+    <div className='w-full mt-16 rounded-lg shadow-2xl bg-white ' >
         <h2 className='font-medium text-lg mb-2 px-4 pt-2'>Top Blogs</h2>
         <TopBlog></TopBlog>
         <TopBlog></TopBlog>

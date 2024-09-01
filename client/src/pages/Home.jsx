@@ -3,7 +3,7 @@ import Content from '../components/Content'
 
 const Home = () => {
   return (
-    <div className='w-11/12 m-auto'>
+    <div className='w-11/12 m-auto '>
       <Content></Content>
     </div>
   )

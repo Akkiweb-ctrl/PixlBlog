@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-// import { BlogContext } from "../store/BlogContext";
 import { useParams } from "react-router-dom";
 
 
 const DisplayBlog = () => {
-  // const { toDisplay } = useContext(BlogContext);
   const [blogInfo, setBlogInfo] = useState({});
   const {id} = useParams();
 
   useEffect( ()=>{
-    // console.log(id);
      fetch(`http://localhost:3000/display-blog/${id}`)
      .then((response)=>{
       response.json()
@@ -19,7 +16,7 @@ const DisplayBlog = () => {
      })
   },[])
   return (
-    <div className="w-3/4 m-auto bg-white p-4 rounded-lg shadow-2xl mb-4">
+    <div className="w-3/4 mx-auto bg-white p-4 rounded-lg shadow-2xl my-4 h-screen overflow-y-scroll no-scrollbar">
       <div className="mb-4">
         <h2 className="text-greenOne font-medium text-3xl text-center mb-2">{blogInfo.title} </h2>
         <div className="flex flex-col  items-center">
@@ -32,16 +29,8 @@ const DisplayBlog = () => {
         <img className='h-96 w-full rounded mb-4 object-fill' src={"http://localhost:3000/" + blogInfo.cover} alt="" />
       </div>
       <div dangerouslySetInnerHTML={{__html:blogInfo.description}} className="break-all">
-        {/* {toDisplay.description} */}
       </div>
-      {/* <ReactQuill
-         theme="bubble" 
-        //  modules = {modules}
-        //  formats={formats}
-        readOnly={true}
-         value={toDisplay.description}
-         onChange={newValue=>setDescription(newValue)} 
-         className="bg-white" type="text"/> */}
+   
     </div>
   );
 };

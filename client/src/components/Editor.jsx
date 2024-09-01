@@ -1,9 +1,6 @@
 import React from 'react'
 import ReactQuill from "react-quill-new";
-import JoditEditor from 'jodit-react'
 import "react-quill/dist/quill.snow.css";
-// import Quill from 'quill';
-// import "quill/dist/quill.core.css";
 
 const Editor = ({value,onChange}) => {
     const modules = {
@@ -29,7 +26,8 @@ const Editor = ({value,onChange}) => {
         "image",
       ];
   return (
-    <ReactQuill
+    <div className=''>
+      <ReactQuill
           theme="snow"
           modules={modules}
           value={value}
@@ -37,7 +35,8 @@ const Editor = ({value,onChange}) => {
           className="bg-white"
       
         />
-    // <JoditEditor/>
+    </div> 
+    
   )
 }
 

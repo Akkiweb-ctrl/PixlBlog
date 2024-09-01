@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const BlogSchema = new Schema({
-    title: { type: String, },
+    title: { type: String,},
     // email : {type:String},
     category: { type: String },
     country: { type: String },

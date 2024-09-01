@@ -11,16 +11,12 @@ import CreateBlog from "./components/CreateBlog";
 import YourBlogs from "./pages/YourBlogs";
 import EditBlog from "./components/EditBlog";
 import DisplayBlog from "./pages/DisplayBlog";
-// import {blogLoader}  from './pages/YourBlogs'
 
 function App() {
-  // const [displayLogin, setdisplayLogin] = useState(true)
-  // const [displayRegister, setdisplayRegister] = useState(true)
 
   return (
-    <div>
+    <div className="app">
       <Header ></Header>
-      <div className="pt-4">
         <Routes>
           <Route path="/" element={<Home  />} />
           <Route path="/login" element={<Login  />} />
@@ -33,7 +29,6 @@ function App() {
           <Route path="/my-blogs" element={<YourBlogs />} />
           <Route path="/display-blog/:id" element={<DisplayBlog />} />
         </Routes>
-      </div>
     </div>
   );
 }

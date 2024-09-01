@@ -2,6 +2,7 @@ import React, {  useEffect, useState } from "react";
 // import { BlogContext } from "../store/BlogContext";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import * as Yup from 'yup'
 
 import Editor from "./Editor";
 
@@ -15,7 +16,8 @@ const EditBlog = () => {
   const [category,setCategory] = useState("");
   const [country,setCountry] = useState("");
   const [fileValue,setFiles] = useState('');
-  // const updateForm = useRef(null);
+  const [errors, setErrors] = useState();
+
  
   
   useEffect(()=>{
@@ -23,37 +25,58 @@ const EditBlog = () => {
     .then((response)=>{
       response.json()
       .then((info)=>{
-        // console.log(info)
         setBlogInfo(info)
         setTitle(info.title)
         setCategory(info.category)
         setCountry(info.country)
         setDescription(info.description)
-        // console.log(info.description);
       })
     })
   },[])
-  // console.log(blogInfo)
  
+  const validationSchemma = Yup.object({
+    title :Yup.string().required("title is required"),
+    country :Yup.string().required("country is required"),
+    category :Yup.string().required("category is required"),
+    description :Yup.string().required("description is required"),
+    file: Yup.mixed()
+    .test('fileFormat', 'Only image/png,image/gif,image/jpg,image/jpeg files are allowed', value => {
+      if (value) {
+        const supportedFormats = ["png","gif","jpg","jpeg"];
+        return supportedFormats.includes(value.name.split('.').pop());
+      }
+      return true;
+    })
+    .test('fileSize', 'File size must not be more than 3MB', 
+    value => {
+      if (value) {
+        return value.size <= 3145728;
+      }
+      return true;
+    }),
+  })
+  const onSubmitHandler = async (ev) =>{
+    ev.preventDefault();
+    console.log(title)
+      try{
+      await validationSchemma.validate({title,country,category,description:description.replace(/<(.|\n)*?>/g, ''),file:fileValue[0]},{ abortEarly:false});
+      updateBlog();
+    }catch(error){
+      let newErrors = {}
+      console.log(error)
+      error.inner.forEach((err)=>{
+        newErrors[err.path]= err.message;
+        setErrors(newErrors);
+        console.log(errors)
+      })
+    }
+    
+  }
+    
+
+
   const updateBlog = async (event) => {
     
-    event.preventDefault();
-    const data = new FormData();
-    data.set('title',title)
-    data.set('category',category)
-    data.set('country',country)
-    data.set('description',description)
-    data.set('id',id)
-    // const title = form["title"].value;
-    // const category = form["category"].value;
-    // const country = form["country"].value;
-    // const description = descriptionValue
-    let file = null
-    if(fileValue?.[0]){
-      data.set('file',fileValue)
-    }
-    // console.log(title)
-    // console.log(id)
 
     const response = await fetch(`http://localhost:3000/edit-blog`, {
       method: "PUT",
@@ -62,7 +85,7 @@ const EditBlog = () => {
         category,
         country,
         description,
-        file,
+        file:fileValue[0],
         id,
 
       }),
@@ -70,14 +93,14 @@ const EditBlog = () => {
       headers: { "Content-type": "application/json" },
     });
     if (response.ok) {
-      navigate('/');
+      navigate(-1);
       alert("Blog updated");
     }
   };
   return (
     <form
-      className="w-3/4 m-auto flex flex-col"
-      onSubmit={updateBlog}
+      className="w-3/4 m-auto h-screen flex flex-col overflow-y-scroll no-scrollbar"
+      onSubmit={onSubmitHandler}
       
     >
       <h2 className="mb-4 font-medium text-greenOne text-xl border-b border-grayOne pb-2">
@@ -109,7 +132,6 @@ const EditBlog = () => {
             className="border border-grayOne rounded w-full p-1"
             onChange={(e)=>setCategory(e.target.value)}
           >
-            {/* <option value='' selected>Select Category</option> */}
             <option value="DEFAULT" disabled>Choose category</option>
             <option
               value="Technology"
@@ -168,27 +190,16 @@ const EditBlog = () => {
         <label htmlFor="description" className="mr-4 self-center ">
           Description
         </label>
-      {/* <div dangerouslySetInnerHTML={{__html:toEdit.description}} className="break-all">
-      </div> */}
-        {/* <textarea
-          rows="20"
-          type="text"
-          name="description"
-          id="description"
-          placeholder="Enter description of your blog"
-          className="border border-grayOne rounded w-full p-1"
-          defaultValue={toEdit.description}
-        /> */}
         <Editor 
         onChange = {setDescription}
          value={description}></Editor>
         
       </div>
       <div className="self-end">
-        <input
+        <button
           type="submit"
           className="rounded bg-greenOne px-4 py-1 text-white font-medium cursor-pointer"
-        />
+        > Save </button>
       </div>
     </form>
   );

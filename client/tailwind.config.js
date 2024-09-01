@@ -12,7 +12,8 @@ export default {
       'white' : "#fff",
       'red':'#ff1100',
       'bgcolor':'#e1eff6',
-      'editColor':'#f2fa05'
+      'editColor':'#f2fa05',
+      'app-bg': '#e1eff6'
     },
     screens: {
       'sm': '640px',
@@ -30,6 +31,9 @@ export default {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
+    },
+    fontSize: {
+      '2xs': '8px'
     },
     extend: {},
   },
