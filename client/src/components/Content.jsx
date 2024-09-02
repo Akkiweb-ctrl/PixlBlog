@@ -17,10 +17,9 @@ const Content = () => {
     const getBlogs = async () => {
       setFetching(true);
       const response = await fetch(url+"/get-blogs", {
+        mode: "no-cors",
         method: "GET",
-        headers: { "Content-type": "application/json",
-          "Access-Control-Allow-Origin":"https://pixl-blog-one.vercel.app/"
-         },
+        headers: { "Content-type": "application/json" },
       });
       if(response.ok){
         const data = await response.json()
