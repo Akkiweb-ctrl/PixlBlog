@@ -25,7 +25,7 @@ const connect = async () => {
 connect();
 const allowedOrigin = 'http://localhost:3000'
 const corsOptions = {
-    origin : 'https://pixl-blog-one.vercel.app/', //included origin as true
+    origin: 'https://pixl-blog-one.vercel.app', //included origin as true
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, //included credentials as true
     allowedHeaders: 'Content-Type,Authorization',
@@ -51,23 +51,23 @@ app.use(cors(corsOptions));
 //     res.setHeader("Access-Control-Allow-Private-Network", true);
 //     //  Firefox caps this at 24 hours (86400 seconds). Chromium (starting in v76) caps at 2 hours (7200 seconds). The default value is 5 seconds.
 //     res.setHeader("Access-Control-Max-Age", 7200);
-  
+
 //     next();
 //   });
 
-  // Set preflight
+// Set preflight
 //   &&
 //       allowMethods.includes(req.headers["access-control-request-method"]) &&
 //       allowHeaders.includes(req.headers["access-control-request-headers"])
 app.options("*", (req, res) => {
     console.log("preflight");
     if (
-      req.headers.origin === "https://pixl-blog-one.vercel.app" 
+        req.headers.origin === "https://pixl-blog-one.vercel.app"
     ) {
-      console.log("pass");
-       res.status(200).json();
+        console.log("pass");
+        res.status(200).json();
     } else {
-      console.log("fail");
+        console.log("fail");
     }
 });
 
@@ -76,7 +76,7 @@ app.use(cookieParser())
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.json("Hello");
 })
 
@@ -84,7 +84,7 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const userDoc = await User.findOne({ email: email });
-        console.log(email,password);
+        console.log(email, password);
         const passOk = bcrypt.compareSync(password, userDoc.password);
         if (passOk) {
             jwt.sign({ email, id: userDoc._id, name: userDoc.name }, secret, (err, token) => {
@@ -258,7 +258,7 @@ app.get('/get-blogs', async (req, res) => {
 
 })
 
-app.get('/profile', (req,res) => {
+app.get('/profile', (req, res) => {
     const { token } = req.cookies;
     jwt.verify(token, secret, async (err, info) => {
         if (err) throw err
