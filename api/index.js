@@ -65,7 +65,7 @@ app.options("*", (req, res) => {
       req.headers.origin === "https://pixl-blog-one.vercel.app" 
     ) {
       console.log("pass");
-      return res.status(200).send();
+       res.status(200).json();
     } else {
       console.log("fail");
     }
