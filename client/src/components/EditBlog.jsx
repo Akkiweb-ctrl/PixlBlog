@@ -79,7 +79,7 @@ const EditBlog = () => {
   const updateBlog = async (event) => {
     
 
-    const response = await fetch(`${url}edit-blog`, {
+    const response = await fetch(`${url}/edit-blog`, {
       method: "PUT",
       body: JSON.stringify({
         title,

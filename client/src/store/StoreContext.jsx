@@ -4,7 +4,7 @@ export const StoreContext = createContext({})
 
 
 const StoreContextProvider = ({children}) =>{
-     const url = "https://pixlblog-nr1m.onrender.com/"
+     const url = "https://pixl-blog-api.vercel.app"
     
     const contextValue = {
         url

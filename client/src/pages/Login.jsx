@@ -51,7 +51,7 @@ const Login = () => {
   const login = async (event) => {
     
    
-    const response = await fetch(url + "login", {
+    const response = await fetch(url + "/login", {
       method: "POST",
       credentials:"include",
       body: JSON.stringify({email,password}),

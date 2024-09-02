@@ -18,7 +18,7 @@ const Blog = ({ blog }) => {
   const {url} = useContext(StoreContext)
   const deleteBlog = async () => {
     const id = blog._id;
-    const response = await fetch(url+"delete-blog", {
+    const response = await fetch(url+"/delete-blog", {
       method: "DELETE",
       body: JSON.stringify({ id }),
       credentials: "include",
@@ -40,7 +40,7 @@ const Blog = ({ blog }) => {
       >
         <div className=" flex flex-col sm:flex-col lg:flex-row rounded-lg shadow-2xl min-w-fit bg-white cursor-pointer  ">
           <img
-            src={url + blog.cover}
+            src={url +"/"+ blog.cover}
             alt="image"
             className="sm:w-full lg:max-w-72 w-full sm:rounded-t-lg rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg border-r-none h-60"
           />

@@ -36,7 +36,7 @@ const Header = () => {
   //   });
   // }, []);
   const logout = () => {
-    fetch(url+"logout", {
+    fetch(url+"/logout", {
       credentials: "include",
       method: "POST",
     }).then((response) => {

@@ -93,7 +93,7 @@ const onSubmitHandler = async (ev) =>{
     data.set('country',country);
     data.set('description',description);
     data.set('file',files[0]);
-    const response = await fetch(url+"create-blog",{
+    const response = await fetch(url+"/create-blog",{
       method:'POST',
       body:data,
       credentials:'include'

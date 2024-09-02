@@ -14,7 +14,7 @@ const YourBlogs = () => {
   useEffect(() => {
     setFetching(true);
     const getBlogs = async () => {
-      const response = await fetch(url + "get-my-blogs", {
+      const response = await fetch(url + "/get-my-blogs", {
         method: "GET",
         headers: { "Content-type": "application/json" },
         credentials: "include",

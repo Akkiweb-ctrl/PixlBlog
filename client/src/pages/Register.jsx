@@ -47,7 +47,7 @@ const Register = () => {
 
   const register = async (event) => {
 
-    const response = await fetch(url + "register", {
+    const response = await fetch(url + "/register", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
       headers: { "Content-type": "application/json" },

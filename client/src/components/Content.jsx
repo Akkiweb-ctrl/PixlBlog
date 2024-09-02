@@ -16,7 +16,7 @@ const Content = () => {
   useEffect(() => {
     const getBlogs = async () => {
       setFetching(true);
-      const response = await fetch(url+"get-blogs", {
+      const response = await fetch(url+"/get-blogs", {
         method: "GET",
         headers: { "Content-type": "application/json" },
       });
@@ -33,8 +33,9 @@ const Content = () => {
     };
     const getProfile = async()=>{
       setFetching(true);
-      const response = await fetch(url+"profile", {
-        credentials: "include",
+      const response = await fetch(url+"/profile", {
+        headers: { "Content-type": "application/json" },
+        credentials: "include"
       });
       if(response.ok){
         const data = await response.json();

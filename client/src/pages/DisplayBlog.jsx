@@ -10,7 +10,7 @@ const DisplayBlog = () => {
 
 
   useEffect( ()=>{
-     fetch(`${url}display-blog/${id}`)
+     fetch(`${url}/display-blog/${id}`)
      .then((response)=>{
       response.json()
       .then((info)=>{
@@ -29,7 +29,7 @@ const DisplayBlog = () => {
         </div>
       </div>
       <div className="">
-        <img className='h-96 w-full rounded mb-4 object-fill' src={url + blogInfo.cover} alt="url" />
+        <img className='h-96 w-full rounded mb-4 object-fill' src={url +"/"+ blogInfo.cover} alt="url" />
       </div>
       <div dangerouslySetInnerHTML={{__html:blogInfo.description}} className="break-all">
       </div>

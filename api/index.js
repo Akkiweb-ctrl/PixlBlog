@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const userDoc = await User.findOne({ email: email });
-        // console.log(userDoc);
+        console.log(email,password);
         const passOk = bcrypt.compareSync(password, userDoc.password);
         if (passOk) {
             jwt.sign({ email, id: userDoc._id, name: userDoc.name }, secret, (err, token) => {
