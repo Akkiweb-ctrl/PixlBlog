@@ -7,7 +7,7 @@ import { StoreContext } from "../store/StoreContext";
 
 
 const Login = () => {
-  const {updateUser} = useContext(UserContext)
+  const {updateUser,setLoggedIn} = useContext(UserContext)
   const {url} = useContext(StoreContext)
 
   const navigate = useNavigate();
@@ -60,7 +60,8 @@ const Login = () => {
     
     if (response.ok) {
       const data = await response.json();
-      updateUser(data)
+      updateUser(data);
+      setLoggedIn(true)
       navigate("/");
       console.log(data);
     }

@@ -22,19 +22,11 @@ const connect = async () => {
     // console.log(res);
 }
 
-
-const allowedOrigin = 'https://pixl-blog-one.vercel.app'
 connect();
+const allowedOrigin = 'http://localhost:3000'
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || origin === allowedOrigin) {
-            callback(null, true)
-        } else {
-            callback(new Error("Not allowed by CORS"))
-        }
-
-    }, //included origin as true
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin:true, //included origin as true
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, //included credentials as true
 };
 
@@ -211,7 +203,7 @@ app.get('/get-blogs', async (req, res) => {
     // })
     try {
         const docs = await Blog.find().sort({ timestamp: -1 });
-        // console.log(docs)
+        console.log(docs)
         res.json(docs);
     }
     catch (e) {
@@ -221,12 +213,13 @@ app.get('/get-blogs', async (req, res) => {
 
 })
 
-app.get('/profile', (req, res) => {
+app.get('/profile', (req,res) => {
     const { token } = req.cookies;
     jwt.verify(token, secret, async (err, info) => {
         if (err) throw err
         const userDoc = await User.findOne({ _id: info.id })
-        console.log({ name: userDoc.name, email: userDoc.email, _id: userDoc.id })
+        console.log(userDoc);
+        // console.log({ name: userDoc.name, email: userDoc.email, _id: userDoc.id })
         res.json({ name: userDoc.name, email: userDoc.email, _id: userDoc.id })
     })
     //  res.json(req.cookies)
@@ -263,4 +256,4 @@ app.get("/display-blog/:id", async (req, res) => {
     // res.json(req.params);
 })
 
-app.listen(port)
+app.listen(3000)

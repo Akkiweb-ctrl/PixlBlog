@@ -8,7 +8,7 @@ import { UserContext } from "../store/UserContext";
 import { StoreContext } from "../store/StoreContext";
 
 const Content = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, updateUser, loggedIn } = useContext(UserContext);
   const {url} = useContext(StoreContext)
 
   const [fetching, setFetching] = useState(false);
@@ -20,10 +20,37 @@ const Content = () => {
         method: "GET",
         headers: { "Content-type": "application/json" },
       });
-      setBlogs(await response.json());
-      setFetching(false);
+      if(response.ok){
+        const data = await response.json()
+        setBlogs(data);
+        setFetching(false);
+      }
+      else{
+        console.log(response)
+        setFetching(false);
+      }
+     
     };
+    const getProfile = async()=>{
+      setFetching(true);
+      const response = await fetch(url+"profile", {
+        credentials: "include",
+      });
+      if(response.ok){
+        const data = await response.json();
+        updateUser(data);
+      setFetching(false);
+
+      }
+    }
+    if(!loggedIn){
     getBlogs();
+    }
+    else{
+      getProfile();
+    getBlogs();
+
+    }
   }, []);
   return (
     <>

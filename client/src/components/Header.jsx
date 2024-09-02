@@ -7,9 +7,9 @@ import TopBlogList from "./TopBlogList";
 import { StoreContext } from "../store/StoreContext";
 
 const Header = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser,setLoggedIn } = useContext(UserContext);
   const [displayMenu, setDisplayMenu] = useState(false);
-  const [activeTab, setActiveTab] = useState("");
+  // const [activeTab, setActiveTab] = useState("");
   const [displayTopBlogList, setDisplayTopBlogList] = useState(false);
   const {url} = useContext(StoreContext)
 
@@ -24,17 +24,17 @@ const Header = () => {
   const toggleTopBlogsAndMenu = () => {
     setDisplayTopBlogList(!displayTopBlogList);
   };
-  useEffect(() => {
-    fetch(url+"profile", {
-      credentials: "include",
-    }).then((response) => {
-      response.json().then((data) => {
-        updateUser(data);
-        // console.log(data);
+  // useEffect(() => {
+  //   fetch(url+"profile", {
+  //     credentials: "include",
+  //   }).then((response) => {
+  //     response.json().then((data) => {
+  //       updateUser(data);
+  //       // console.log(data);
         
-      });
-    });
-  }, []);
+  //     });
+  //   });
+  // }, []);
   const logout = () => {
     fetch(url+"logout", {
       credentials: "include",
@@ -42,13 +42,14 @@ const Header = () => {
     }).then((response) => {
       response.json().then((data) => {
         updateUser(data);
+        setLoggedIn(false)
       });
     });
   };
   return (
     <div className="w-full sticky top-0 bg-white min-w-fit">
       <div className="p-4 flex justify-between border-b border-headerGray">
-        <Link to="/" className="font-extrabold text-4xl text-greenOne" onClick={()=>{setActiveTab("")}}>
+        <Link to="/" className="font-extrabold text-4xl text-greenOne">
           PixlBlog
         </Link>
         {user._id ? (
@@ -57,15 +58,16 @@ const Header = () => {
            
               <Link
                 to="/create-blog"
-                className={`createBlogTab cursor-pointer text-greenOne font-medium self-center px-4 ${activeTab==="CreateBlog" ? "bg-app-bg rounded-lg":""}`}
-                onClick={()=>{setActiveTab("CreateBlog")}}
+                className={`createBlogTab cursor-pointer text-greenOne font-medium self-center px-4 `}
+                // onClick={()=>{setActiveTab("CreateBlog")}}
+                // ${activeTab==="CreateBlog" ? "bg-app-bg rounded-lg":""}
               >
                 Create Blog
               </Link>
               <Link
                 to="/my-blogs"
-                className={`cursor-pointer text-greenOne font-medium px-4 self-center ${activeTab==="MyBlogs" ? "bg-app-bg rounded-lg":""}`}
-                onClick={()=>{setActiveTab("MyBlogs")}}
+                className={`cursor-pointer text-greenOne font-medium px-4 self-center`}
+                // onClick={()=>{setActiveTab("MyBlogs")}}
               >
                 My Blogs
               </Link>
@@ -133,16 +135,16 @@ const Header = () => {
           <div className="flex gap-4">
             <Link
               to="/register"
-              className={`cursor-pointer border-2 rounded border-greenOne text-greenOne font-medium text-lg px-2 py ${activeTab==="Register" ? "bg-app-bg rounded-t-lg":""}`}
-              onClick={()=>{setActiveTab("Register")}}
+              className={`cursor-pointer border-2 rounded border-greenOne text-greenOne font-medium text-lg px-2 py `}
+              // onClick={()=>{setActiveTab("Register")}}
 
             >
               Register
             </Link>
             <Link
               to="/login"
-              className={`cursor-pointer border-2 rounded border-greenOne text-greenOne font-medium text-lg px-2 py ${activeTab==="Login" ? "bg-app-bg rounded-t-lg":""}`}
-              onClick={()=>{setActiveTab("Login")}}
+              className={`cursor-pointer border-2 rounded border-greenOne text-greenOne font-medium text-lg px-2 py `}
+              // onClick={()=>{setActiveTab("Login")}}
 
             >
               Login

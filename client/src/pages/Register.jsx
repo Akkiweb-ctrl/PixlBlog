@@ -6,13 +6,13 @@ import { FaStarOfLife } from "react-icons/fa6";
 import { StoreContext } from "../store/StoreContext";
 
 
-const Register = ({ setLoggedIn }) => {
+const Register = () => {
   const navigate = useNavigate();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [name,setName] = useState("");
   const [errors,setErrors] = useState();
-  const {updateUser} = useContext(UserContext)
+  const {updateUser,setLoggedIn} = useContext(UserContext)
   const {url} = useContext(StoreContext)
 
 
@@ -56,7 +56,8 @@ const Register = ({ setLoggedIn }) => {
     const data = await response.json();
     if (response.ok) {
       updateUser(data)
-      navigate("/");
+      navigate("/");  
+      setLoggedIn(true)
       console.log(data);
     } else {
       console.log(response);
