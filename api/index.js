@@ -8,9 +8,12 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const app = express();
 const multer = require('multer');
+
+
+const uploadDir = '/tmp/uploads';
 const uploadMiddleware = multer({
-    dest: 'uploads/',
-    limits: { fieldSize: 2 * 1024 * 1024 }
+    dest: uploadDir,
+    limits: { fileSize: 2 * 1024 * 1024 }
 })
 const fs = require('fs');
 
