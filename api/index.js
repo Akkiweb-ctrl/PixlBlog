@@ -28,6 +28,8 @@ const corsOptions = {
     origin : 'https://pixl-blog-one.vercel.app/', //included origin as true
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, //included credentials as true
+    allowedHeaders: 'Content-Type,Authorization',
+    optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
