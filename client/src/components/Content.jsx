@@ -18,7 +18,9 @@ const Content = () => {
       setFetching(true);
       const response = await fetch(url+"/get-blogs", {
         method: "GET",
-        headers: { "Content-type": "application/json" },
+        headers: { "Content-type": "application/json",
+          "Access-Control-Allow-Origin":"https://pixl-blog-one.vercel.app/"
+         },
       });
       if(response.ok){
         const data = await response.json()
