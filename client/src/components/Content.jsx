@@ -55,7 +55,7 @@ const Content = () => {
   return (
     <>
       <div className={`flex gap-20 justify-between `}>
-        <div className="pt-4 sm:w-full md:w-9/12 md:m-auto h-screen overflow-y-scroll no-scrollbar ">
+        <div className="pt-4 w-9/12 sm:w-9/12 lg:w-9/12 m-auto h-screen overflow-y-scroll no-scrollbar ">
           <h2 className="mb-4 font-medium text-greenOne text-xl border-b border-grayOne pb-2">
             Blogs
           </h2>
