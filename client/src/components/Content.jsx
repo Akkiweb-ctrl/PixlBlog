@@ -17,7 +17,6 @@ const Content = () => {
     const getBlogs = async () => {
       setFetching(true);
       const response = await fetch(url+"/get-blogs", {
-        mode: "no-cors",
         method: "GET",
         headers: { "Content-type": "application/json" },
       });
