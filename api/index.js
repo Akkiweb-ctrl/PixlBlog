@@ -56,12 +56,13 @@ app.use(cors(corsOptions));
 //   });
 
   // Set preflight
+//   &&
+//       allowMethods.includes(req.headers["access-control-request-method"]) &&
+//       allowHeaders.includes(req.headers["access-control-request-headers"])
 app.options("*", (req, res) => {
     console.log("preflight");
     if (
-      req.headers.origin === "https://pixl-blog-one.vercel.app" &&
-      allowMethods.includes(req.headers["access-control-request-method"]) &&
-      allowHeaders.includes(req.headers["access-control-request-headers"])
+      req.headers.origin === "https://pixl-blog-one.vercel.app" 
     ) {
       console.log("pass");
       return res.status(200).send();
