@@ -62,7 +62,7 @@ app.options("*", (req, res) => {
       allowHeaders.includes(req.headers["access-control-request-headers"])
     ) {
       console.log("pass");
-      return res.status(204).send();
+      return res.status(200).send();
     } else {
       console.log("fail");
     }
