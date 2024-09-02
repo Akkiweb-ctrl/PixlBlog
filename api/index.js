@@ -35,6 +35,11 @@ app.use(express.json({ limit: '50mb' }))
 app.use(cookieParser())
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
+
+app.get('/',(req,res)=>{
+    res.json("Hello");
+})
+
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
