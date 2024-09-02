@@ -24,13 +24,13 @@ const connect = async () => {
 
 connect();
 const allowedOrigin = 'http://localhost:3000'
-const corsOptions = {
-    origin:["https://pixl-blog-one.vercel.app/"], //included origin as true
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, //included credentials as true
-};
+// const corsOptions = {
+//     origin:["https://pixl-blog-one.vercel.app/"], //included origin as true
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true, //included credentials as true
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
     res.setHeader(
