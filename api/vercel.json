@@ -3,14 +3,31 @@
     "builds":[
         {"src":"*.js","use":"@vercel/node"}
     ],
-    "routes":[
+    "rewrites":[
         {
             "src":"/(.*)",
-            "dest":"/",
-            "methods": ["GET", "POST", "PUT", "DELETE"],
-            "headers" : {
-                "Access-Control-Allow-Origin":"*"
+            "dest":"/"
+        }
+    ],
+    "headers": [
+        
+        {
+           "src":"/(.*)",
+           "headers":[
+            {
+                "key":"Access-Control-Allow-Origin",
+                "value":"*"
             }
+           ]
+        },
+        {
+            "src":"https://pixl-blog-one.vercel.app/(.*)",
+            "headers":[
+                {
+                    "key":"Access-Control-Allow-Origin",
+                    "value":"*"
+                }
+            ]   
         }
     ]
 }
