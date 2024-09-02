@@ -26,9 +26,9 @@ const connect = async () => {
 }
 
 connect();
-const allowedOrigin = 'http://localhost:3000'
+const allowedOrigin = 'http://localhost:3000/'
 const corsOptions = {
-    origin: 'https://pixl-blog-one.vercel.app', //included origin as true
+    origin: true, //included origin as true
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, //included credentials as true
     allowedHeaders: 'Content-Type,Authorization',
@@ -93,7 +93,11 @@ app.post('/login', async (req, res) => {
         if (passOk) {
             jwt.sign({ email, id: userDoc._id, name: userDoc.name }, secret, (err, token) => {
                 if (err) throw err
-                res.cookie('token', token).json({ email, _id: userDoc._id, name: userDoc.name });
+                res.cookie('token', token,{
+                    sameSite: 'None',
+                    secure: true, // Ensure your site uses HTTPS
+                    httpOnly: true, // Optional, but good for security
+                  }).json({ email, _id: userDoc._id, name: userDoc.name });
                 // res.cookie('token',token);
                 // res.json(token);
             })
@@ -119,7 +123,11 @@ app.post('/register', async (req, res) => {
         });
         jwt.sign({ email, id: userDoc._id }, secret, (err, token) => {
             if (err) throw err
-            res.cookie('token', token).json(userDoc);
+            res.cookie('token', token,{
+                sameSite: 'None',
+                secure: true, // Ensure your site uses HTTPS
+                httpOnly: true, // Optional, but good for security
+              }).json(userDoc);
         })
         // res.json(userDoc);
 

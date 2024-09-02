@@ -4,7 +4,7 @@ export const StoreContext = createContext({})
 
 
 const StoreContextProvider = ({children}) =>{
-     const url = "https://pixl-blog-api.vercel.app"
+     const url = "http://localhost:3000"
     
     const contextValue = {
         url
