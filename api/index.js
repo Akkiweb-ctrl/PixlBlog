@@ -25,7 +25,7 @@ const connect = async () => {
 connect();
 const allowedOrigin = 'http://localhost:3000'
 const corsOptions = {
-    origin:["https://pixl-blog-api.vercel.app"], //included origin as true
+    origin:["https://pixl-blog-one.vercel.app"], //included origin as true
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, //included credentials as true
 };
