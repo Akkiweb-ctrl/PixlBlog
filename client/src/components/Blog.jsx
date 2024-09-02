@@ -5,20 +5,20 @@ import { formatISO9075 } from "date-fns";
 
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { BlogContext } from "../store/BlogContext";
 import { useRecoilState } from "recoil";
-// import { myBlogsAtom } from "../store/atoms/myBlogsAtom";
 import { UserContext } from "../store/UserContext";
 import { blogsAtom } from "../store/atoms/blogsAtom";
 import { myBlogsAtom } from "../store/atoms/myBlogsAtom";
+import { StoreContext } from "../store/StoreContext";
 
 const Blog = ({ blog }) => {
   const [blogs, setBlogs] = useRecoilState(blogsAtom);
   const [myBlogs, setMyBlogs] = useRecoilState(myBlogsAtom);
   const { user, updateUser } = useContext(UserContext);
+  const {url} = useContext(StoreContext)
   const deleteBlog = async () => {
     const id = blog._id;
-    const response = await fetch("http://localhost:3000/delete-blog", {
+    const response = await fetch(url+"delete-blog", {
       method: "DELETE",
       body: JSON.stringify({ id }),
       credentials: "include",
@@ -40,7 +40,7 @@ const Blog = ({ blog }) => {
       >
         <div className=" flex flex-col sm:flex-col lg:flex-row rounded-lg shadow-2xl min-w-fit bg-white cursor-pointer  ">
           <img
-            src={"http://localhost:3000/" + blog.cover}
+            src={url + blog.cover}
             alt="image"
             className="sm:w-full lg:max-w-72 w-full sm:rounded-t-lg rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg border-r-none h-60"
           />

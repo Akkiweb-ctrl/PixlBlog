@@ -3,12 +3,14 @@ import {  useNavigate } from "react-router-dom";
 import * as Yup from 'yup'
 import { UserContext } from "../store/UserContext";
 import { FaStarOfLife } from "react-icons/fa6";
+import { StoreContext } from "../store/StoreContext";
 
 
 const Login = () => {
   const {updateUser} = useContext(UserContext)
+  const {url} = useContext(StoreContext)
+
   const navigate = useNavigate();
-  // const loginInput = useRef(null);
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [errors,setErrors] = useState();
@@ -26,25 +28,6 @@ const Login = () => {
     .matches(/[a-z]/,"Password must contain atleast one lowercase character")
     .matches(/[A-Z]/,"Password must contain atleast one uppercase character")
     .min(8,"Password must be atleast 8 characters long")
-
-
-    // category :Yup.string().required("category is required"),
-    // description :Yup.string().required("description is required"),
-    // file: Yup.mixed().required('required')
-    // .test('fileFormat', 'Only image/png,image/gif,image/jpg,image/jpeg files are allowed', value => {
-    //   if (value) {
-    //     const supportedFormats = ["png","gif","jpg","jpeg"];
-    //     return supportedFormats.includes(value.name.split('.').pop());
-    //   }
-    //   return true;
-    // })
-    // .test('fileSize', 'File size must not be more than 3MB', 
-    // value => {
-    //   if (value) {
-    //     return value.size <= 3145728;
-    //   }
-    //   return true;
-    // }),
   })
 
   const handleSubmit = async (event) =>{
@@ -63,19 +46,12 @@ const Login = () => {
         // setSubmitting(false)
       })
     }
-
-    // const form = loginInput.current;
-    
-      // const email= form["email"].value
-      // const password= form["password"].value
-      // setFormData(newData)
-      // console.log(formData);
   }
 
   const login = async (event) => {
     
    
-    const response = await fetch("http://localhost:3000/login", {
+    const response = await fetch(url + "login", {
       method: "POST",
       credentials:"include",
       body: JSON.stringify({email,password}),
@@ -97,7 +73,6 @@ const Login = () => {
     <form
       className="flex flex-col w-1/3 m-auto"
       onSubmit={handleSubmit}
-      // ref={loginInput}
     >
       <h1 className="font-bold text-xl my-6 self-center text-greenOne">
         Login

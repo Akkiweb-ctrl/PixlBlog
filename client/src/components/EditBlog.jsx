@@ -1,14 +1,15 @@
-import React, {  useEffect, useState } from "react";
+import React, {  useContext, useEffect, useState } from "react";
 // import { BlogContext } from "../store/BlogContext";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import * as Yup from 'yup'
 
 import Editor from "./Editor";
+import { StoreContext } from "../store/StoreContext";
 
 const EditBlog = () => {
   const {id} = useParams();
-  // const { toEdit } = useContext(BlogContext);
+  const { url } = useContext(StoreContext);
   const [blogInfo, setBlogInfo] = useState({});
   const navigate = useNavigate();
   const [description,setDescription] = useState("");
@@ -21,7 +22,7 @@ const EditBlog = () => {
  
   
   useEffect(()=>{
-    fetch(`http://localhost:3000/edit-blog/${id}`)
+    fetch(`${url}edit-blog/${id}`)
     .then((response)=>{
       response.json()
       .then((info)=>{
@@ -78,7 +79,7 @@ const EditBlog = () => {
   const updateBlog = async (event) => {
     
 
-    const response = await fetch(`http://localhost:3000/edit-blog`, {
+    const response = await fetch(`${url}edit-blog`, {
       method: "PUT",
       body: JSON.stringify({
         title,
@@ -93,7 +94,7 @@ const EditBlog = () => {
       headers: { "Content-type": "application/json" },
     });
     if (response.ok) {
-      navigate(-1);
+      navigate("/");
       alert("Blog updated");
     }
   };

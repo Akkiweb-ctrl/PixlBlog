@@ -7,17 +7,18 @@ import Home from "./pages/Home.jsx";
 import UserContextProvider from "./store/UserContext";
 // import BlogContextProvider from "./store/BlogContext.jsx";
 import { RecoilRoot } from "recoil";
+import StoreContextProvider from "./store/StoreContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RecoilRoot>
-      <UserContextProvider>
-        {/* <BlogContextProvider> */}
+      <StoreContextProvider>
+        <UserContextProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        {/* </BlogContextProvider> */}
-      </UserContextProvider>
-      </RecoilRoot>
+        </UserContextProvider>
+      </StoreContextProvider>
+    </RecoilRoot>
   </StrictMode>
 );

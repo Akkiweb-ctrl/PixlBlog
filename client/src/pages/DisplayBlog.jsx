@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { StoreContext } from "../store/StoreContext";
 
 
 const DisplayBlog = () => {
   const [blogInfo, setBlogInfo] = useState({});
   const {id} = useParams();
+  const {url} = useContext(StoreContext)
+
 
   useEffect( ()=>{
-     fetch(`http://localhost:3000/display-blog/${id}`)
+     fetch(`${url}display-blog/${id}`)
      .then((response)=>{
       response.json()
       .then((info)=>{
@@ -26,7 +29,7 @@ const DisplayBlog = () => {
         </div>
       </div>
       <div className="">
-        <img className='h-96 w-full rounded mb-4 object-fill' src={"http://localhost:3000/" + blogInfo.cover} alt="" />
+        <img className='h-96 w-full rounded mb-4 object-fill' src={url + blogInfo.cover} alt="url" />
       </div>
       <div dangerouslySetInnerHTML={{__html:blogInfo.description}} className="break-all">
       </div>

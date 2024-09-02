@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BlogList from "../components/BlogList";
 import { useRecoilState } from "recoil";
 import { myBlogsAtom } from "../store/atoms/myBlogsAtom";
 import ClipLoader from "react-spinners/ClipLoader";
 import NoMyBlogs from "../components/NoMyBlogs";
+import { StoreContext } from "../store/StoreContext";
 
 const YourBlogs = () => {
   const [myBlogs, setMyBlogs] = useRecoilState(myBlogsAtom);
   const [fetching, setFetching] = useState(false);
+  const {url} = useContext(StoreContext)
 
   useEffect(() => {
     setFetching(true);
     const getBlogs = async () => {
-      const response = await fetch("http://localhost:3000/get-my-blogs", {
+      const response = await fetch(url + "get-my-blogs", {
         method: "GET",
         headers: { "Content-type": "application/json" },
         credentials: "include",

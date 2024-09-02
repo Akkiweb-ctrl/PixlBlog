@@ -17,7 +17,8 @@ const port = process.env.PORT || 3000;
 const salt = bcrypt.genSaltSync(10)
 const secret = '1234567890'
 const connect = async () => {
-    await mongoose.connect("mongodb://localhost:27017/");
+    const res =await mongoose.connect("mongodb+srv://akashrananaware318:jxkOuR1H0IxPRCHI@cluster0.6rxck.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+    // console.log(res);
 }
 
 
@@ -201,7 +202,7 @@ app.get('/get-blogs', async (req, res) => {
     // })
     try {
         const docs = await Blog.find().sort({ timestamp: -1 });
-        console.log(docs)
+        // console.log(docs)
         res.json(docs);
     }
     catch (e) {
@@ -211,12 +212,13 @@ app.get('/get-blogs', async (req, res) => {
 
 })
 
-app.get('/profile', (req, res) => {
+app.get('/profile',  (req, res) => {
     const { token } = req.cookies;
-    jwt.verify(token, secret, (err, info) => {
+    jwt.verify(token, secret, async(err, info) => {
         if (err) throw err
-        // console.log({ name: info.name, email: info.email, _id: info.id })
-        res.json({ name: info.email, email: info.email, info, _id: info.id })
+        const userDoc = await User.findOne({_id:info.id})
+        console.log({ name: userDoc.name, email: userDoc.email, _id: userDoc.id })
+        res.json({ name: userDoc.name, email: userDoc.email, _id: userDoc.id })
     })
     //  res.json(req.cookies)
 })

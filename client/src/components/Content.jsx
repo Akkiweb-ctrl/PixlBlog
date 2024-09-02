@@ -5,15 +5,18 @@ import TopBlogList from "./TopBlogList";
 import { useRecoilState } from "recoil";
 import { blogsAtom } from "../store/atoms/blogsAtom";
 import { UserContext } from "../store/UserContext";
+import { StoreContext } from "../store/StoreContext";
 
 const Content = () => {
   const { user, setUser } = useContext(UserContext);
+  const {url} = useContext(StoreContext)
+
   const [fetching, setFetching] = useState(false);
   const [blogs, setBlogs] = useRecoilState(blogsAtom);
   useEffect(() => {
     const getBlogs = async () => {
       setFetching(true);
-      const response = await fetch("http://localhost:3000/get-blogs", {
+      const response = await fetch(url+"get-blogs", {
         method: "GET",
         headers: { "Content-type": "application/json" },
       });

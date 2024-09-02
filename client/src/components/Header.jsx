@@ -4,17 +4,18 @@ import { CgProfile } from "react-icons/cg";
 
 import { UserContext } from "../store/UserContext";
 import TopBlogList from "./TopBlogList";
+import { StoreContext } from "../store/StoreContext";
 
 const Header = () => {
   const { user, updateUser } = useContext(UserContext);
-  // const [loggedIn, setLoggedIn] = useState(false);
   const [displayMenu, setDisplayMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("");
   const [displayTopBlogList, setDisplayTopBlogList] = useState(false);
+  const {url} = useContext(StoreContext)
+
 
   const toggleMenu = () => {
     setDisplayMenu(!displayMenu);
-    // console.log(displayMenu);
   };
   const toggleAndLogout = () => {
     logout();
@@ -24,19 +25,18 @@ const Header = () => {
     setDisplayTopBlogList(!displayTopBlogList);
   };
   useEffect(() => {
-    fetch("http://localhost:3000/profile", {
+    fetch(url+"profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((data) => {
         updateUser(data);
-        // setLoggedIn(true)
-        // consolelog(data);
+        // console.log(data);
+        
       });
     });
   }, []);
   const logout = () => {
-    // console.log(data);
-    fetch("http://localhost:3000/logout", {
+    fetch(url+"logout", {
       credentials: "include",
       method: "POST",
     }).then((response) => {
@@ -54,12 +54,7 @@ const Header = () => {
         {user._id ? (
           <div className="flex gap-4">
             <div className=" gap-4  hidden sm:hidden md:flex">
-              {/* <Link
-                to="/my-blogs"
-                className="cursor-pointer text-greenOne font-medium self-center"
-              >
-                Top Blogs
-              </Link> */}
+           
               <Link
                 to="/create-blog"
                 className={`createBlogTab cursor-pointer text-greenOne font-medium self-center px-4 ${activeTab==="CreateBlog" ? "bg-app-bg rounded-lg":""}`}
@@ -99,7 +94,6 @@ const Header = () => {
                 </p>
                 <div className="relative">
                   <Link
-                    // to="/top-blogs"
                     className="cursor-pointer text-greenOne font-medium self-center md:hidden block sm:block border-b border-grayOne px-2 py-1"
                     onClick={toggleTopBlogsAndMenu}
                   >

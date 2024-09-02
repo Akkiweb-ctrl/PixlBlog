@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup'
 import { UserContext } from "../store/UserContext";
 import { FaStarOfLife } from "react-icons/fa6";
+import { StoreContext } from "../store/StoreContext";
 
 
 const Register = ({ setLoggedIn }) => {
@@ -12,6 +13,8 @@ const Register = ({ setLoggedIn }) => {
   const [name,setName] = useState("");
   const [errors,setErrors] = useState();
   const {updateUser} = useContext(UserContext)
+  const {url} = useContext(StoreContext)
+
 
   const validationSchemma = Yup.object({
     name :Yup.string().min(2,"Name should contain at least 2 characters").required("Name is required"),
@@ -44,7 +47,7 @@ const Register = ({ setLoggedIn }) => {
 
   const register = async (event) => {
 
-    const response = await fetch("http://localhost:3000/register", {
+    const response = await fetch(url + "register", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
       headers: { "Content-type": "application/json" },

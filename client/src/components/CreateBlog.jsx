@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { blogsAtom } from "../store/atoms/blogsAtom";
 import { useRecoilState } from "recoil";
@@ -6,17 +6,18 @@ import { FaStarOfLife } from "react-icons/fa6";
 import * as Yup from 'yup'
 import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
+import { StoreContext } from "../store/StoreContext";
 
 const CreateBlog = () => {
 
   const [submitting, setSubmitting] = useState(false)
-  const [formData, setFormData] = useState({
-    title : '',
-    category : '',
-    country : '',
-    description : '',
-    files : '',
-  });
+  // const [formData, setFormData] = useState({
+  //   title : '',
+  //   category : '',
+  //   country : '',
+  //   description : '',
+  //   files : '',
+  // });
   const [title,setTitle] = useState('');
   const [category,setCategory] = useState('');
   const [country,setCountry] = useState('');
@@ -25,6 +26,8 @@ const CreateBlog = () => {
   const [blogs, setBlogs] =  useRecoilState(blogsAtom)
   const navigate = useNavigate();
   const [errors, setErrors] = useState();
+  const {url} = useContext(StoreContext)
+
   const data = new FormData();
 
 
@@ -90,7 +93,7 @@ const onSubmitHandler = async (ev) =>{
     data.set('country',country);
     data.set('description',description);
     data.set('file',files[0]);
-    const response = await fetch("http://localhost:3000/create-blog",{
+    const response = await fetch(url+"create-blog",{
       method:'POST',
       body:data,
       credentials:'include'
