@@ -4,7 +4,7 @@ export const StoreContext = createContext({})
 
 
 const StoreContextProvider = ({children}) =>{
-     const url = "http://localhost:3000/"
+     const url = "https://pixlblog-nr1m.onrender.com/"
     
     const contextValue = {
         url

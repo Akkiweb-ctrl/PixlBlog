@@ -256,4 +256,4 @@ app.get("/display-blog/:id", async (req, res) => {
     // res.json(req.params);
 })
 
-app.listen(3000)
+app.listen(port)
